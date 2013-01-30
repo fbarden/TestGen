@@ -1,0 +1,3 @@
+// Edit Testcase
+[View]<->[Model|Textbox|+getText();+setText();+update()]
+[Model]<->[Base|+readFile();+writeFile()]
