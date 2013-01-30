@@ -1,3 +1,6 @@
 // Edit Testcase
-[View]<->[Model|Textbox|+getText();+setText();+update()]
-[Model]<->[Base|+readFile();+writeFile()]
+[View|+editText();+writeTemplate();+addMethod()]
+[Model|Textbox|+getText();+setText();+update()]
+[Base|+readFile();+writeFile()]
+[View]<->[Model]
+[Model]<->[Base]
