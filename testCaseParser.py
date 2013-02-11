@@ -2,6 +2,15 @@
 import ConfigParser
 import sys
 
+def stringDevice(device, parameter) :
+	return '<span style=" font-style:italic; color:' + config.get('Devices', device) + ';">' + parameter + '</span>'
+
+def stringComment(line) :
+	return '<span style=" color:#949494;">' + line.strip() + '</span>'
+
+def stringMethod(method) :
+	return '<span style="font-family:\'Sans\'; font-size:10pt; font-weight:600; font-style:italic;">' + method + '</span>'
+
 if (len(sys.argv) == 2):
 	filename = sys.argv[1]
 else:
@@ -12,6 +21,7 @@ config.optionxform=str
 config.read('parserConfig.conf')
 
 method_list = config.options('Methods')
+device_list = config.options('Devices')
 #for method in method_list :
 	#method = method.split()
 	
@@ -26,17 +36,20 @@ for line in testcase_lines :
 	if line.startswith('\n') :
 		sys.stdout.write("<br />")
 	if line.startswith('#') :
-		sys.stdout.write('<span style=" color:#949494;">' + line.strip() + '</span>')
+		sys.stdout.write(stringComment(line))
 	else :
 		line_words = line.split()
 		for word in line_words :
+			flag_match = False
 			if word in method_list :
-				sys.stdout.write('<span style="font-family:\'Sans\'; font-size:10pt; font-weight:600; font-style:italic;">' + word + '</span>')
-			elif word.startswith('@@CPE_1') :
-				sys.stdout.write('<span style=" font-style:italic; color:#0000ff;">' + word + '</span>')
-			elif word.startswith('@@CPE_2') :
-				sys.stdout.write('<span style=" font-style:italic; color:#ff0000;">' + word + '</span>')
-			else :
+				sys.stdout.write(stringMethod(word))
+				flag_match = True
+			elif word.startswith('@@') :
+				for device in device_list :
+					if word.strip('@').startswith(device) :
+						sys.stdout.write(stringDevice(device, word))
+						flag_match = True
+			if (not flag_match) :
 				sys.stdout.write(word);
 				
 			sys.stdout.write(' ');
