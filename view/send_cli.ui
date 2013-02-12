@@ -20,14 +20,17 @@
       <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
      </property>
      <item row="0" column="0">
-      <widget class="QLabel" name="label">
+      <widget class="QLabel" name="deviceLabel">
        <property name="text">
         <string>Device:</string>
+       </property>
+       <property name="buddy">
+        <cstring>deviceComboBox</cstring>
        </property>
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QComboBox" name="comboBox">
+      <widget class="QComboBox" name="deviceComboBox">
        <item>
         <property name="text">
          <string>CPE 1</string>
@@ -46,14 +49,17 @@
       </widget>
      </item>
      <item row="1" column="0">
-      <widget class="QLabel" name="label_2">
+      <widget class="QLabel" name="interfaceLabel">
        <property name="text">
         <string>Interface:</string>
+       </property>
+       <property name="buddy">
+        <cstring>interfaceComboBox</cstring>
        </property>
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QComboBox" name="comboBox_2">
+      <widget class="QComboBox" name="interfaceComboBox">
        <item>
         <property name="text">
          <string>G.SHDSL</string>
@@ -76,61 +82,60 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QListWidget" name="listWidget">
+      <widget class="QListWidget" name="methodList">
        <item>
         <property name="text">
-         <string>Method 1</string>
+         <string>Methods</string>
         </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Method 2</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Method 3</string>
+        <property name="font">
+         <font>
+          <weight>50</weight>
+          <bold>false</bold>
+         </font>
         </property>
        </item>
       </widget>
      </item>
      <item>
-      <widget class="QTextBrowser" name="textBrowser"/>
+      <widget class="QTextBrowser" name="previewTextBrowser"/>
      </item>
     </layout>
    </item>
    <item>
     <layout class="QGridLayout" name="gridLayout">
      <item row="0" column="0">
-      <widget class="QLabel" name="label_3">
+      <widget class="QLabel" name="argumentsLabel">
        <property name="text">
         <string>Arguments:</string>
+       </property>
+       <property name="buddy">
+        <cstring>argumentsEdit</cstring>
        </property>
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLineEdit" name="lineEdit"/>
+      <widget class="QLineEdit" name="argumentsEdit"/>
      </item>
     </layout>
    </item>
    <item>
     <layout class="QGridLayout" name="gridLayout_2">
      <item row="0" column="0">
-      <widget class="QCheckBox" name="checkBox">
+      <widget class="QCheckBox" name="rebootCheckBox">
        <property name="text">
         <string>reboot</string>
        </property>
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QCheckBox" name="checkBox_2">
+      <widget class="QCheckBox" name="loginCheckBox">
        <property name="text">
         <string>login</string>
        </property>
       </widget>
      </item>
      <item row="0" column="2">
-      <widget class="QCheckBox" name="checkBox_3">
+      <widget class="QCheckBox" name="logoutCheckBox">
        <property name="text">
         <string>logout</string>
        </property>
@@ -148,5 +153,41 @@
   </layout>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>Form</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>379</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>120</x>
+     <y>388</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>Form</receiver>
+   <slot>acceptSendCLI()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>351</x>
+     <y>379</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>239</x>
+     <y>388</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>acceptSendCLI()</slot>
+ </slots>
 </ui>
