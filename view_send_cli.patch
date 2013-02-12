@@ -1,6 +1,14 @@
---- view_send_cli_orig.py	2013-02-12 11:22:40.560320783 -0200
-+++ view_send_cli.py	2013-02-12 11:26:50.936312955 -0200
-@@ -9,12 +9,65 @@
+--- view_send_cli.py	2013-02-12 15:20:26.512219010 -0200
++++ view_send_cli_new.py	2013-02-12 15:09:13.197097606 -0200
+@@ -2,19 +2,100 @@
+ 
+ # Form implementation generated from reading ui file './view/send_cli.ui'
+ #
+-# Created: Tue Feb 12 15:20:26 2013
++# Created: Tue Feb 12 13:46:47 2013
+ #      by: PyQt4 UI code generator 4.9.1
+ #
+ # WARNING! All changes made in this file will be lost!
  
  from PyQt4 import QtCore, QtGui
  
@@ -41,6 +49,7 @@
 +        listBox.clear()
 +        interface_dir = interfaces.get_interface_value(interfaceSelection)
 +        files_list = filter(self.isCLI, os.listdir(interface_dir))
++        files_list.append('<none>')
 +        for file_name in files_list:
 +            item = QtGui.QListWidgetItem()
 +            item.setText(_fromUtf8(file_name))
@@ -56,17 +65,44 @@
 +        if (previewBox==None) :
 +            previewBox = self.previewTextEdit
 +        previewBox.clear()
-+        if (commandSelection=="") :
++        if (commandSelection=="") or (commandSelection=="<none>") :
 +            return
 +        interface_dir = interfaces.get_interface_value(interfaceSelection)
 +        command_file = interface_dir+commandSelection
 +        command_preview = open(command_file, 'r').read()
 +        previewBox.setText(command_preview)
 +
++    def acceptSendCLI(self):
++        special_case = False
++        login_param = ""
++        login_flag = ""
++        logout_flag = ""
++        device = str(self.deviceComboBox.currentText())
++        if self.loginCheckBox.isChecked() :
++            login_param = devices.get_device_value(device, "Login")
++            login_flag = "--login"
++            special_case = True
++        if self.logoutCheckBox.isChecked() :
++            logout_flag = "--logout"
++            special_case = True
++        if self.rebootCheckBox.isChecked() :
++            special_case = True
++        device_params = devices.get_device_value(device, "SendCLI")
++        interface_dir = interfaces.get_interface_value(self.interfaceComboBox.currentText())
++        command_file = self.methodList.currentItem().text()
++        arguments = self.argumentsEdit.text()
++        if (command_file=="<none>"):
++                if special_case:
++                    result = "SendCLI_v2.py " + login_param + " " + login_flag + " " + logout_flag + "\n"
++                    print result
++                return
++        result = "SendCLI_v2.py " + device_params + " " + login_param + " -f " + interface_dir + command_file + " " + arguments + " " + login_flag + " " + logout_flag + "\n"
++        print result
++
      def setupUi(self, Form):
          Form.setObjectName(_fromUtf8("Form"))
          Form.resize(401, 388)
-@@ -31,8 +84,7 @@
+@@ -31,8 +112,7 @@
          self.deviceComboBox = QtGui.QComboBox(Form)
          self.deviceComboBox.setAccessibleName(_fromUtf8(""))
          self.deviceComboBox.setObjectName(_fromUtf8("deviceComboBox"))
@@ -76,7 +112,7 @@
          self.formLayout.setWidget(0, QtGui.QFormLayout.FieldRole, self.deviceComboBox)
          self.interfaceLabel = QtGui.QLabel(Form)
          self.interfaceLabel.setAccessibleName(_fromUtf8(""))
-@@ -41,8 +93,7 @@
+@@ -41,8 +121,7 @@
          self.interfaceComboBox = QtGui.QComboBox(Form)
          self.interfaceComboBox.setAccessibleName(_fromUtf8(""))
          self.interfaceComboBox.setObjectName(_fromUtf8("interfaceComboBox"))
@@ -86,7 +122,7 @@
          self.formLayout.setWidget(1, QtGui.QFormLayout.FieldRole, self.interfaceComboBox)
          self.verticalLayout.addLayout(self.formLayout)
          self.horizontalLayout = QtGui.QHBoxLayout()
-@@ -50,13 +101,7 @@
+@@ -50,13 +129,7 @@
          self.methodList = QtGui.QListWidget(Form)
          self.methodList.setAccessibleName(_fromUtf8(""))
          self.methodList.setObjectName(_fromUtf8("methodList"))
@@ -101,7 +137,7 @@
          self.horizontalLayout.addWidget(self.methodList)
          self.previewTextEdit = QtGui.QTextEdit(Form)
          self.previewTextEdit.setAccessibleName(_fromUtf8(""))
-@@ -101,9 +146,10 @@
+@@ -101,9 +174,10 @@
  
          self.retranslateUi(Form)
          QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("rejected()")), Form.close)
@@ -110,7 +146,7 @@
 -        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), Form.acceptSendCLI)
 +        QtCore.QObject.connect(self.interfaceComboBox, QtCore.SIGNAL(_fromUtf8("currentIndexChanged(QString)")), self.updateMethodList)
 +        QtCore.QObject.connect(self.methodList, QtCore.SIGNAL(_fromUtf8("currentTextChanged(QString)")), self.updatePreview)
-+        #QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), Form.acceptSendCLI)
++        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), self.acceptSendCLI)
          QtCore.QMetaObject.connectSlotsByName(Form)
  
      def retranslateUi(self, Form):
