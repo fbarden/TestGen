@@ -1,0 +1,116 @@
+--- view_send_cli_orig.py	2013-02-12 11:22:40.560320783 -0200
++++ view_send_cli.py	2013-02-12 11:26:50.936312955 -0200
+@@ -9,12 +9,65 @@
+ 
+ from PyQt4 import QtCore, QtGui
+ 
++import devices
++import interfaces
++import os
++
+ try:
+     _fromUtf8 = QtCore.QString.fromUtf8
+ except AttributeError:
+     _fromUtf8 = lambda s: s
+ 
+ class Ui_Form(object):
++
++    def isCLI(self, s):
++        if s.find(".cli") == -1:
++            return False
++        else:
++            return True
++
++    def createInterfaceList(self, comboBox=None):
++        if (comboBox==None) :
++            comboBox = self.interfaceComboBox
++        interface_list = interfaces.get_list()
++        for interface in interface_list :
++            comboBox.addItem(_fromUtf8(interface[0]))
++
++    def createDeviceList(self, comboBox=None):
++        if (comboBox==None) :
++            comboBox = self.deviceComboBox
++        device_list = devices.get_list()
++        for device in device_list :
++            comboBox.addItem(_fromUtf8(device))
++
++    def updateMethodList(self, interfaceSelection, listBox=None):
++        if (listBox==None) :
++            listBox = self.methodList
++        listBox.clear()
++        interface_dir = interfaces.get_interface_value(interfaceSelection)
++        files_list = filter(self.isCLI, os.listdir(interface_dir))
++        for file_name in files_list:
++            item = QtGui.QListWidgetItem()
++            item.setText(_fromUtf8(file_name))
++            font = QtGui.QFont()
++            font.setBold(False)
++            font.setWeight(50)
++            item.setFont(font)
++            self.methodList.addItem(item)
++
++    def updatePreview(self, commandSelection, interfaceSelection=None, previewBox=None):
++        if (interfaceSelection==None) :
++            interfaceSelection = self.interfaceComboBox.currentText()
++        if (previewBox==None) :
++            previewBox = self.previewTextEdit
++        previewBox.clear()
++        if (commandSelection=="") :
++            return
++        interface_dir = interfaces.get_interface_value(interfaceSelection)
++        command_file = interface_dir+commandSelection
++        command_preview = open(command_file, 'r').read()
++        previewBox.setText(command_preview)
++
+     def setupUi(self, Form):
+         Form.setObjectName(_fromUtf8("Form"))
+         Form.resize(401, 388)
+@@ -31,8 +84,7 @@
+         self.deviceComboBox = QtGui.QComboBox(Form)
+         self.deviceComboBox.setAccessibleName(_fromUtf8(""))
+         self.deviceComboBox.setObjectName(_fromUtf8("deviceComboBox"))
+-        self.deviceComboBox.addItem(_fromUtf8(""))
+-        self.deviceComboBox.setItemText(0, _fromUtf8("CPE 1"))
++        self.createDeviceList(self.deviceComboBox)
+         self.formLayout.setWidget(0, QtGui.QFormLayout.FieldRole, self.deviceComboBox)
+         self.interfaceLabel = QtGui.QLabel(Form)
+         self.interfaceLabel.setAccessibleName(_fromUtf8(""))
+@@ -41,8 +93,7 @@
+         self.interfaceComboBox = QtGui.QComboBox(Form)
+         self.interfaceComboBox.setAccessibleName(_fromUtf8(""))
+         self.interfaceComboBox.setObjectName(_fromUtf8("interfaceComboBox"))
+-        self.interfaceComboBox.addItem(_fromUtf8(""))
+-        self.interfaceComboBox.setItemText(0, _fromUtf8("G.SHDSL"))
++        self.createInterfaceList(self.interfaceComboBox)
+         self.formLayout.setWidget(1, QtGui.QFormLayout.FieldRole, self.interfaceComboBox)
+         self.verticalLayout.addLayout(self.formLayout)
+         self.horizontalLayout = QtGui.QHBoxLayout()
+@@ -50,13 +101,7 @@
+         self.methodList = QtGui.QListWidget(Form)
+         self.methodList.setAccessibleName(_fromUtf8(""))
+         self.methodList.setObjectName(_fromUtf8("methodList"))
+-        item = QtGui.QListWidgetItem()
+-        item.setText(_fromUtf8("Methods"))
+-        font = QtGui.QFont()
+-        font.setBold(False)
+-        font.setWeight(50)
+-        item.setFont(font)
+-        self.methodList.addItem(item)
++        self.updateMethodList(self.interfaceComboBox.currentText(), self.methodList)
+         self.horizontalLayout.addWidget(self.methodList)
+         self.previewTextEdit = QtGui.QTextEdit(Form)
+         self.previewTextEdit.setAccessibleName(_fromUtf8(""))
+@@ -101,9 +146,10 @@
+ 
+         self.retranslateUi(Form)
+         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("rejected()")), Form.close)
+-        QtCore.QObject.connect(self.interfaceComboBox, QtCore.SIGNAL(_fromUtf8("currentIndexChanged(QString)")), Form.updateMethodList)
+         QtCore.QObject.connect(self.interfaceComboBox, QtCore.SIGNAL(_fromUtf8("currentIndexChanged(QString)")), self.previewTextEdit.clear)
+-        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), Form.acceptSendCLI)
++        QtCore.QObject.connect(self.interfaceComboBox, QtCore.SIGNAL(_fromUtf8("currentIndexChanged(QString)")), self.updateMethodList)
++        QtCore.QObject.connect(self.methodList, QtCore.SIGNAL(_fromUtf8("currentTextChanged(QString)")), self.updatePreview)
++        #QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), Form.acceptSendCLI)
+         QtCore.QMetaObject.connectSlotsByName(Form)
+ 
+     def retranslateUi(self, Form):
