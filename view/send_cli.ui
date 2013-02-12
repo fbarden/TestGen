@@ -81,6 +81,9 @@
        <property name="accessibleName">
         <string notr="true"/>
        </property>
+       <property name="sortingEnabled">
+        <bool>true</bool>
+       </property>
        <item>
         <property name="text">
          <string notr="true">Methods</string>
@@ -176,6 +179,16 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>deviceComboBox</tabstop>
+  <tabstop>interfaceComboBox</tabstop>
+  <tabstop>methodList</tabstop>
+  <tabstop>argumentsEdit</tabstop>
+  <tabstop>rebootCheckBox</tabstop>
+  <tabstop>loginCheckBox</tabstop>
+  <tabstop>logoutCheckBox</tabstop>
+  <tabstop>buttonBox</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
