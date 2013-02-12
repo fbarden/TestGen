@@ -6,12 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>413</height>
+    <width>401</width>
+    <height>388</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
+  </property>
+  <property name="accessibleName">
+   <string notr="true"/>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -21,6 +24,9 @@
      </property>
      <item row="0" column="0">
       <widget class="QLabel" name="deviceLabel">
+       <property name="accessibleName">
+        <string notr="true"/>
+       </property>
        <property name="text">
         <string>Device:</string>
        </property>
@@ -31,25 +37,21 @@
      </item>
      <item row="0" column="1">
       <widget class="QComboBox" name="deviceComboBox">
+       <property name="accessibleName">
+        <string notr="true"/>
+       </property>
        <item>
         <property name="text">
-         <string>CPE 1</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>CPE 2</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>EDD</string>
+         <string notr="true">CPE 1</string>
         </property>
        </item>
       </widget>
      </item>
      <item row="1" column="0">
       <widget class="QLabel" name="interfaceLabel">
+       <property name="accessibleName">
+        <string notr="true"/>
+       </property>
        <property name="text">
         <string>Interface:</string>
        </property>
@@ -60,19 +62,12 @@
      </item>
      <item row="1" column="1">
       <widget class="QComboBox" name="interfaceComboBox">
+       <property name="accessibleName">
+        <string notr="true"/>
+       </property>
        <item>
         <property name="text">
-         <string>G.SHDSL</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Ethernet</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>PWE3</string>
+         <string notr="true">G.SHDSL</string>
         </property>
        </item>
       </widget>
@@ -83,9 +78,12 @@
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QListWidget" name="methodList">
+       <property name="accessibleName">
+        <string notr="true"/>
+       </property>
        <item>
         <property name="text">
-         <string>Methods</string>
+         <string notr="true">Methods</string>
         </property>
         <property name="font">
          <font>
@@ -97,7 +95,14 @@
       </widget>
      </item>
      <item>
-      <widget class="QTextBrowser" name="previewTextBrowser"/>
+      <widget class="QTextEdit" name="previewTextEdit">
+       <property name="accessibleName">
+        <string notr="true"/>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
@@ -105,6 +110,9 @@
     <layout class="QGridLayout" name="gridLayout">
      <item row="0" column="0">
       <widget class="QLabel" name="argumentsLabel">
+       <property name="accessibleName">
+        <string notr="true"/>
+       </property>
        <property name="text">
         <string>Arguments:</string>
        </property>
@@ -114,7 +122,11 @@
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLineEdit" name="argumentsEdit"/>
+      <widget class="QLineEdit" name="argumentsEdit">
+       <property name="accessibleName">
+        <string notr="true"/>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
@@ -122,6 +134,9 @@
     <layout class="QGridLayout" name="gridLayout_2">
      <item row="0" column="0">
       <widget class="QCheckBox" name="rebootCheckBox">
+       <property name="accessibleName">
+        <string notr="true"/>
+       </property>
        <property name="text">
         <string>reboot</string>
        </property>
@@ -129,6 +144,9 @@
      </item>
      <item row="0" column="1">
       <widget class="QCheckBox" name="loginCheckBox">
+       <property name="accessibleName">
+        <string notr="true"/>
+       </property>
        <property name="text">
         <string>login</string>
        </property>
@@ -136,6 +154,9 @@
      </item>
      <item row="0" column="2">
       <widget class="QCheckBox" name="logoutCheckBox">
+       <property name="accessibleName">
+        <string notr="true"/>
+       </property>
        <property name="text">
         <string>logout</string>
        </property>
@@ -145,6 +166,9 @@
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="accessibleName">
+      <string notr="true"/>
+     </property>
      <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
@@ -162,11 +186,43 @@
    <hints>
     <hint type="sourcelabel">
      <x>248</x>
-     <y>379</y>
+     <y>378</y>
     </hint>
     <hint type="destinationlabel">
      <x>120</x>
-     <y>388</y>
+     <y>387</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>interfaceComboBox</sender>
+   <signal>currentIndexChanged(QString)</signal>
+   <receiver>Form</receiver>
+   <slot>updateMethodList(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>107</x>
+     <y>58</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>128</x>
+     <y>142</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>interfaceComboBox</sender>
+   <signal>currentIndexChanged(QString)</signal>
+   <receiver>previewTextEdit</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>331</x>
+     <y>62</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>334</x>
+     <y>105</y>
     </hint>
    </hints>
   </connection>
@@ -177,17 +233,18 @@
    <slot>acceptSendCLI()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>351</x>
-     <y>379</y>
+     <x>361</x>
+     <y>366</y>
     </hint>
     <hint type="destinationlabel">
-     <x>239</x>
-     <y>388</y>
+     <x>164</x>
+     <y>381</y>
     </hint>
    </hints>
   </connection>
  </connections>
  <slots>
   <slot>acceptSendCLI()</slot>
+  <slot>updateMethodList(QString)</slot>
  </slots>
 </ui>

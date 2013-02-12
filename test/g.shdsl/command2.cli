@@ -1,0 +1,8 @@
+configure
+interface
+g.shdsl 1
+no shutdown
+exit
+exit
+exit
+

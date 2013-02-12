@@ -1,6 +1,6 @@
 import ConfigParser
 
-paths_file = '../config/paths.conf'
+paths_file = 'config/paths.conf'
 
 def get_commands_path():
 	config_file = ConfigParser.RawConfigParser()

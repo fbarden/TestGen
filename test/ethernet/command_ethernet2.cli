@@ -1,0 +1,5 @@
+configure
+interface ethernet 1
+no shutdown
+exit
+exit
