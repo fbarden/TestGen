@@ -26,19 +26,20 @@ class Ui_Form(object):
         else:
             return True
 
+    def createDeviceList(self, comboBox=None):
+        if (comboBox==None) :
+            comboBox = self.deviceComboBox
+        device_list = devices.get_list()
+        for device in device_list :
+            if devices.has_method(device, "SendCLI") :
+                comboBox.addItem(_fromUtf8(device))
+
     def createInterfaceList(self, comboBox=None):
         if (comboBox==None) :
             comboBox = self.interfaceComboBox
         interface_list = interfaces.get_list()
         for interface in interface_list :
             comboBox.addItem(_fromUtf8(interface[0]))
-
-    def createDeviceList(self, comboBox=None):
-        if (comboBox==None) :
-            comboBox = self.deviceComboBox
-        device_list = devices.get_list()
-        for device in device_list :
-            comboBox.addItem(_fromUtf8(device))
 
     def updateMethodList(self, interfaceSelection, listBox=None):
         if (listBox==None) :
@@ -76,25 +77,32 @@ class Ui_Form(object):
         logout_flag = ""
         device = str(self.deviceComboBox.currentText())
         if self.loginCheckBox.isChecked() :
-            login_param = devices.get_device_value(device, "Login")
-            login_flag = "--login"
+            login_param = " " + devices.get_device_value(device, "Login")
+            login_flag = " --login"
             special_case = True
         if self.logoutCheckBox.isChecked() :
-            logout_flag = "--logout"
+            logout_flag = " --logout"
             special_case = True
         if self.rebootCheckBox.isChecked() :
-            special_case = True
-        device_params = devices.get_device_value(device, "SendCLI")
-        interface_dir = interfaces.get_interface_value(self.interfaceComboBox.currentText())
-        command_file = self.methodList.currentItem().text()
-        arguments = self.argumentsEdit.text()
+            reboot_params = " " + devices.get_device_value(device, "Reboot")
+            result = "SendCLI_v2.py" + login_param + reboot_params + login_flag + logout_flag + "\n"
+            print result
+            return
+        device_params = " " + devices.get_device_value(device, "SendCLI")
+        interface_dir = " " + interfaces.get_interface_value(self.interfaceComboBox.currentText())
+        methodItem = self.methodList.currentItem()
+        if (methodItem == None):
+            command_file='<none>'
+        else :
+            command_file = " -f" + interface_dir + self.methodList.currentItem().text()
+        arguments = " " + self.argumentsEdit.text()
         if (command_file=="<none>"):
                 if special_case:
-                    result = "SendCLI_v2.py " + login_param + " " + login_flag + " " + logout_flag + "\n"
+                    result = "SendCLI_v2.py" + device_params + login_param + login_flag + logout_flag + "\n"
                     print result
                     Form.close()
                 return
-        result = "SendCLI_v2.py " + device_params + " " + login_param + " -f " + interface_dir + command_file + " " + arguments + " " + login_flag + " " + logout_flag + "\n"
+        result = "SendCLI_v2.py" + device_params + login_param + command_file + arguments + login_flag + logout_flag + "\n"
         print result
         Form.close()
 

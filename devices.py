@@ -20,3 +20,8 @@ def get_device_value(device, command):
 	config_file.read(devices_file)
 	return config_file.get(device, command)
 	
+def has_method(device, method):
+    config_file = ConfigParser.RawConfigParser()
+    config_file.optionxform=str
+    config_file.read(devices_file)
+    return config_file.has_option(device, method)
