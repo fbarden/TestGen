@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
+ <class>sendCLIForm</class>
+ <widget class="QWidget" name="sendCLIForm">
+  <property name="windowModality">
+   <enum>Qt::ApplicationModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,7 +14,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>SendCLI</string>
   </property>
   <property name="accessibleName">
    <string notr="true"/>
@@ -194,7 +197,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>Form</receiver>
+   <receiver>sendCLIForm</receiver>
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -210,7 +213,7 @@
   <connection>
    <sender>interfaceComboBox</sender>
    <signal>currentIndexChanged(QString)</signal>
-   <receiver>Form</receiver>
+   <receiver>sendCLIForm</receiver>
    <slot>updateMethodList(QString)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -242,7 +245,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>Form</receiver>
+   <receiver>sendCLIForm</receiver>
    <slot>acceptSendCLI()</slot>
    <hints>
     <hint type="sourcelabel">
