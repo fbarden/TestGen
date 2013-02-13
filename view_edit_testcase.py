@@ -17,11 +17,14 @@ except AttributeError:
 
 class Ui_editTestcaseForm(object):
 
-    def openSendCLIForm(self, parent):
+    def openSendCLIForm(self, parent, return_address):
         sendCLIDialog = QtGui.QDialog(parent)
         ui = sendCLI.Ui_sendCLIDialog()
-        ui.setupUi(sendCLIDialog)
+        ui.setupUi(sendCLIDialog, return_address)
         sendCLIDialog.show()
+
+    def acceptSendCLI(self, returnString):
+        self.testcaseTextEdit.append(returnString)
 
     def setupUi(self, editTestcaseForm):
         editTestcaseForm.setObjectName(_fromUtf8("editTestcaseForm"))
@@ -66,7 +69,7 @@ class Ui_editTestcaseForm(object):
         self.verticalLayout_2.addLayout(self.horizontalLayout_2)
 
         self.retranslateUi(editTestcaseForm)
-        QtCore.QObject.connect(self.sendCLIButton, QtCore.SIGNAL(_fromUtf8("clicked()")), lambda parent=editTestcaseForm : self.openSendCLIForm(parent))
+        QtCore.QObject.connect(self.sendCLIButton, QtCore.SIGNAL(_fromUtf8("clicked()")), lambda parent=editTestcaseForm, return_address=self: self.openSendCLIForm(parent, return_address))
         QtCore.QMetaObject.connectSlotsByName(editTestcaseForm)
         editTestcaseForm.setTabOrder(self.testcaseTextEdit, self.timeButton)
         editTestcaseForm.setTabOrder(self.timeButton, self.loopButton)

@@ -93,12 +93,11 @@ class Ui_sendCLIDialog(object):
         if self.rebootCheckBox.isChecked() :
             reboot_params = " " + devices.get_device_value(device, "Reboot")
             result = "SendCLI_v2.py" + login_param + reboot_params + login_flag + logout_flag + "\n"
-            print result
-            return
+            return result
         device_params = " " + devices.get_device_value(device, "SendCLI")
         interface_dir = " " + interfaces.get_interface_value(self.interfaceComboBox.currentText())
         methodItem = self.methodList.currentItem()
-        if (methodItem == None):
+        if ((methodItem == None) or (methodItem.text() == "<none>")):
             command_file='<none>'
         else :
             command_file = " -f" + interface_dir + self.methodList.currentItem().text()
@@ -106,14 +105,11 @@ class Ui_sendCLIDialog(object):
         if (command_file=="<none>"):
                 if special_case:
                     result = "SendCLI_v2.py" + device_params + login_param + login_flag + logout_flag + "\n"
-                    print result
-                    sendCLIDialog.close()
-                return
+                    return result
         result = "SendCLI_v2.py" + device_params + login_param + command_file + arguments + login_flag + logout_flag + "\n"
-        print result
-        sendCLIDialog.close()
+        return result
 
-    def setupUi(self, sendCLIDialog):
+    def setupUi(self, sendCLIDialog, parentUi):
         sendCLIDialog.setObjectName(_fromUtf8("sendCLIDialog"))
         sendCLIDialog.setWindowModality(QtCore.Qt.ApplicationModal)
         sendCLIDialog.resize(602, 451)
@@ -216,6 +212,7 @@ class Ui_sendCLIDialog(object):
         self.argumentsLabel.setBuddy(self.argumentsEdit)
 
         self.retranslateUi(sendCLIDialog)
+        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), lambda : parentUi.acceptSendCLI(self.acceptSendCLI()))
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), sendCLIDialog.accept)
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("rejected()")), sendCLIDialog.reject)
         QtCore.QObject.connect(self.deviceComboBox, QtCore.SIGNAL(_fromUtf8("currentIndexChanged(QString)")), lambda deviceSelection=self.deviceComboBox.currentText() : self.updateCheckBox(deviceSelection))
