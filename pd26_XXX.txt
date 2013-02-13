@@ -1,0 +1,10 @@
+
+#isso eh um comentario
+Comecou o testcase
+SendCLI.py @@CPE_2_BLAAA aqui vem os args
+TSWStatus.py e mais umas coisa ai
+
+TSWConfig.py espero que de certo @@CPE_1_CONFIG tah ai
+
+TSWConfig.py espero que de certo @@CPE_3_VAI_DAR_MERDA tah ai
+sendcli

@@ -1,5 +1,0 @@
-[PD2600]
-commands = ./database/PD2600/config/
-testcases = ./testSuite/__testcases/
-testplans = ./testPlans/
-

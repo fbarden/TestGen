@@ -1,8 +1,0 @@
-[SendCLI]
-
-CPE_1 = -d @@CPE_1_serial -n @@CPE_1_hostname
-CPE_2 = -d @@CPE_2_serial -n @@CPE_2_hostname
-
-[TSWConfig]
-
-TestSet = @@TSW_1_ip
