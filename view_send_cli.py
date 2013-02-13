@@ -115,6 +115,7 @@ class Ui_sendCLIDialog(object):
 
     def setupUi(self, sendCLIDialog):
         sendCLIDialog.setObjectName(_fromUtf8("sendCLIDialog"))
+        sendCLIDialog.setWindowModality(QtCore.Qt.ApplicationModal)
         sendCLIDialog.resize(602, 451)
         self.verticalLayout = QtGui.QVBoxLayout(sendCLIDialog)
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
@@ -217,9 +218,9 @@ class Ui_sendCLIDialog(object):
         self.retranslateUi(sendCLIDialog)
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), sendCLIDialog.accept)
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("rejected()")), sendCLIDialog.reject)
-        QtCore.QObject.connect(self.deviceComboBox, QtCore.SIGNAL(_fromUtf8("currentIndexChanged(QString)")), self.updateCheckBox)
+        QtCore.QObject.connect(self.deviceComboBox, QtCore.SIGNAL(_fromUtf8("currentIndexChanged(QString)")), lambda deviceSelection=self.deviceComboBox.currentText() : self.updateCheckBox(deviceSelection))
         QtCore.QObject.connect(self.interfaceComboBox, QtCore.SIGNAL(_fromUtf8("currentIndexChanged(QString)")), self.previewTextEdit.clear)
-        QtCore.QObject.connect(self.interfaceComboBox, QtCore.SIGNAL(_fromUtf8("currentIndexChanged(QString)")), self.updateMethodList)
+        QtCore.QObject.connect(self.interfaceComboBox, QtCore.SIGNAL(_fromUtf8("currentIndexChanged(QString)")), lambda interfaceSelection=self.interfaceComboBox.currentText(), listBox=self.methodList : self.updateMethodList(interfaceSelection, listBox)  )
         QtCore.QObject.connect(self.methodList, QtCore.SIGNAL(_fromUtf8("currentTextChanged(QString)")), self.updatePreview)
         QtCore.QMetaObject.connectSlotsByName(sendCLIDialog)
 
