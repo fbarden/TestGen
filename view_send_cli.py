@@ -70,6 +70,13 @@ class Ui_Form(object):
         command_preview = open(command_file, 'r').read()
         previewBox.setText(command_preview)
 
+    def updateCheckBox(self, deviceSelection):
+        device_str = str(deviceSelection)
+        self.rebootCheckBox.setEnabled(devices.has_method(device_str, "Reboot"))
+        self.loginCheckBox.setEnabled(devices.has_method(device_str, "Login"))
+        self.logoutCheckBox.setEnabled(devices.has_method(device_str, "Login"))
+
+
     def acceptSendCLI(self):
         special_case = False
         login_param = ""
@@ -184,6 +191,7 @@ class Ui_Form(object):
 
         self.retranslateUi(Form)
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("rejected()")), Form.close)
+        QtCore.QObject.connect(self.deviceComboBox, QtCore.SIGNAL(_fromUtf8("currentIndexChanged(QString)")), self.updateCheckBox)
         QtCore.QObject.connect(self.interfaceComboBox, QtCore.SIGNAL(_fromUtf8("currentIndexChanged(QString)")), self.previewTextEdit.clear)
         QtCore.QObject.connect(self.interfaceComboBox, QtCore.SIGNAL(_fromUtf8("currentIndexChanged(QString)")), self.updateMethodList)
         QtCore.QObject.connect(self.methodList, QtCore.SIGNAL(_fromUtf8("currentTextChanged(QString)")), self.updatePreview)
