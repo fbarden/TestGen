@@ -9,6 +9,7 @@
 
 from PyQt4 import QtCore, QtGui
 import view_send_cli as sendCLI
+import view_tsw_status as TSWStatus
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -23,8 +24,19 @@ class Ui_editTestcaseForm(object):
         ui.setupUi(sendCLIDialog, return_address)
         sendCLIDialog.show()
 
+    def openTSWStatus(self, parent, return_address):
+        TSWStatusDialog = QtGui.QDialog(parent)
+        ui = TSWStatus.Ui_TSWStatusDialog()
+        ui.setupUi(TSWStatusDialog, return_address)
+        TSWStatusDialog.show()
+        print "BAH!"
+
     def acceptSendCLI(self, returnString):
         self.testcaseTextEdit.append(returnString)
+
+    def acceptTSWStatus(self, returnString):
+        self.testcaseTextEdit.append(returnString)
+
 
     def setupUi(self, editTestcaseForm):
         editTestcaseForm.setObjectName(_fromUtf8("editTestcaseForm"))
@@ -70,6 +82,7 @@ class Ui_editTestcaseForm(object):
 
         self.retranslateUi(editTestcaseForm)
         QtCore.QObject.connect(self.sendCLIButton, QtCore.SIGNAL(_fromUtf8("clicked()")), lambda parent=editTestcaseForm, return_address=self: self.openSendCLIForm(parent, return_address))
+        QtCore.QObject.connect(self.TSWStatusButton, QtCore.SIGNAL(_fromUtf8("clicked()")), lambda parent=editTestcaseForm, return_address=self: self.openTSWStatus(parent, return_address))
         QtCore.QMetaObject.connectSlotsByName(editTestcaseForm)
         editTestcaseForm.setTabOrder(self.testcaseTextEdit, self.timeButton)
         editTestcaseForm.setTabOrder(self.timeButton, self.loopButton)

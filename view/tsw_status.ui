@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Dialog</class>
- <widget class="QDialog" name="Dialog">
+ <class>TSWSTatusDialog</class>
+ <widget class="QDialog" name="TSWSTatusDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -124,7 +124,7 @@
       </widget>
      </item>
      <item row="1" column="3">
-      <widget class="QLineEdit" name="lineEdit_3"/>
+      <widget class="QLineEdit" name="endLineEdit"/>
      </item>
     </layout>
    </item>
@@ -144,7 +144,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QCheckBox" name="checkBox">
+      <widget class="QCheckBox" name="reverseCheckBox">
        <property name="text">
         <string>reverse (-r)</string>
        </property>
@@ -169,7 +169,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>Dialog</receiver>
+   <receiver>TSWSTatusDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -185,7 +185,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>Dialog</receiver>
+   <receiver>TSWSTatusDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
