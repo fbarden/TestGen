@@ -21,10 +21,19 @@ class Ui_loopDialog(object):
             variable = self.variableLineEdit.text()
         else :
             variable = "@" + self.variableLineEdit.text()
-        from_value = self.fromLineEdit.text()
-        to_value = self.toLineEdit.text()
-        step_value = self.stepLineEdit.text()
-        result = "___BEGIN_LOOP___.py " + variable + "=" + from_value + "; " + variable + "<" + to_value + "; " + variable + "=" + variable + " + " + step_value + "\n\n" + "___END_LOOP___.py"
+        from_value = str(self.fromLineEdit.text())
+        to_value = str(self.toLineEdit.text())
+        step_value = str(self.stepLineEdit.text())
+        if (int(from_value) > int(to_value)) :
+            relative_signal = ">="
+            if (not step_value.startswith('-')) :
+                step_value = " - "+step_value
+        else :
+            relative_signal = "<="
+            if (not step_value.startswith('+')) :
+                step_value = " + "+step_value
+
+        result = "___BEGIN_LOOP___.py " + variable + "=" + from_value + "; " + variable + relative_signal + to_value + "; " + variable + "=" + variable + step_value + "\n\n" + "___END_LOOP___.py"
         return result
 
     def setupUi(self, loopDialog, parentUi):
