@@ -9,6 +9,7 @@
 
 from PyQt4 import QtCore, QtGui
 import view_send_cli as sendCLI
+import view_loop as loop
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -22,6 +23,12 @@ class Ui_editTestcaseForm(object):
         ui = sendCLI.Ui_sendCLIDialog()
         ui.setupUi(sendCLIDialog, return_address)
         sendCLIDialog.show()
+
+    def openLoop(self, parent, return_address) :
+        loopDialog = QtGui.QDialog(parent)
+        ui = loop.Ui_loopDialog()
+        ui.setupUi(loopDialog, return_address)
+        loopDialog.show()
 
     def acceptSendCLI(self, returnString):
         self.testcaseTextEdit.append(returnString)
@@ -70,6 +77,7 @@ class Ui_editTestcaseForm(object):
 
         self.retranslateUi(editTestcaseForm)
         QtCore.QObject.connect(self.sendCLIButton, QtCore.SIGNAL(_fromUtf8("clicked()")), lambda parent=editTestcaseForm, return_address=self: self.openSendCLIForm(parent, return_address))
+        QtCore.QObject.connect(self.loopButton, QtCore.SIGNAL(_fromUtf8("clicked()")), lambda parent=editTestcaseForm, return_address=self: self.openLoop(parent, return_address))
         QtCore.QMetaObject.connectSlotsByName(editTestcaseForm)
         editTestcaseForm.setTabOrder(self.testcaseTextEdit, self.timeButton)
         editTestcaseForm.setTabOrder(self.timeButton, self.loopButton)
