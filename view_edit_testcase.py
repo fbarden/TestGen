@@ -10,8 +10,10 @@
 from PyQt4 import QtCore, QtGui
 import view_send_cli as sendCLI
 import view_tsw_status as TSWStatus
+import view_tsw_config as TSWConfig
 import view_loop as loop
 import view_time as time
+import testCaseParser
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -20,7 +22,7 @@ except AttributeError:
 
 class Ui_editTestcaseForm(object):
 
-    def openSendCLIForm(self, parent, return_address):
+    def openSendCLI(self, parent, return_address):
         sendCLIDialog = QtGui.QDialog(parent)
         ui = sendCLI.Ui_sendCLIDialog()
         ui.setupUi(sendCLIDialog, return_address)
@@ -31,7 +33,12 @@ class Ui_editTestcaseForm(object):
         ui = TSWStatus.Ui_TSWStatusDialog()
         ui.setupUi(TSWStatusDialog, return_address)
         TSWStatusDialog.show()
-        print "BAH!"
+
+    def openTSWConfig(self, parent, return_address):
+        TSWConfigDialog = QtGui.QDialog(parent)
+        ui = TSWConfig.Ui_TSWConfigDialog()
+        ui.setupUi(TSWConfigDialog, return_address)
+        TSWConfigDialog.show()
 
     def openLoop(self, parent, return_address) :
         loopDialog = QtGui.QDialog(parent)
@@ -45,12 +52,13 @@ class Ui_editTestcaseForm(object):
         ui.setupUi(timeDialog, return_address)
         timeDialog.show()
 
-    def acceptSendCLI(self, returnString):
+    def acceptTeststep(self, returnString):
         self.testcaseTextEdit.append(returnString)
 
-    def acceptTSWStatus(self, returnString):
-        self.testcaseTextEdit.append(returnString)
-
+    def updateText(self, text):
+        textHTML = testCaseParser.plainToHTML(text)
+        self.testcaseTextEdit.setHtml(textHTML)
+        print "FOI"
 
     def setupUi(self, editTestcaseForm):
         editTestcaseForm.setObjectName(_fromUtf8("editTestcaseForm"))
@@ -95,10 +103,12 @@ class Ui_editTestcaseForm(object):
         self.verticalLayout_2.addLayout(self.horizontalLayout_2)
 
         self.retranslateUi(editTestcaseForm)
-        QtCore.QObject.connect(self.sendCLIButton, QtCore.SIGNAL(_fromUtf8("clicked()")), lambda parent=editTestcaseForm, return_address=self: self.openSendCLIForm(parent, return_address))
+        QtCore.QObject.connect(self.sendCLIButton, QtCore.SIGNAL(_fromUtf8("clicked()")), lambda parent=editTestcaseForm, return_address=self: self.openSendCLI(parent, return_address))
         QtCore.QObject.connect(self.TSWStatusButton, QtCore.SIGNAL(_fromUtf8("clicked()")), lambda parent=editTestcaseForm, return_address=self: self.openTSWStatus(parent, return_address))
+        QtCore.QObject.connect(self.TSWConfigButton, QtCore.SIGNAL(_fromUtf8("clicked()")), lambda parent=editTestcaseForm, return_address=self: self.openTSWConfig(parent, return_address))
         QtCore.QObject.connect(self.loopButton, QtCore.SIGNAL(_fromUtf8("clicked()")), lambda parent=editTestcaseForm, return_address=self: self.openLoop(parent, return_address))
         QtCore.QObject.connect(self.timeButton, QtCore.SIGNAL(_fromUtf8("clicked()")), lambda parent=editTestcaseForm, return_address=self: self.openTime(parent, return_address))
+        QtCore.QObject.connect(self.testcaseTextEdit, QtCore.SIGNAL(_fromUtf8("textChanged()")), lambda : self.updateText(str(self.testcaseTextEdit.toPlainText())))
         QtCore.QMetaObject.connectSlotsByName(editTestcaseForm)
         editTestcaseForm.setTabOrder(self.testcaseTextEdit, self.timeButton)
         editTestcaseForm.setTabOrder(self.timeButton, self.loopButton)
