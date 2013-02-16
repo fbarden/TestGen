@@ -102,7 +102,7 @@ class Ui_loopDialog(object):
         self.verticalLayout.addWidget(self.buttonBox)
 
         self.retranslateUi(loopDialog)
-        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), lambda : parentUi.acceptSendCLI(self.acceptLoop()))
+        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), lambda : parentUi.acceptTeststep(self.acceptLoop()))
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), loopDialog.accept)
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("rejected()")), loopDialog.reject)
         QtCore.QMetaObject.connectSlotsByName(loopDialog)

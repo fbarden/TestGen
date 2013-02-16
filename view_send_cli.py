@@ -95,7 +95,7 @@ class Ui_sendCLIDialog(object):
             result = "SendCLI_v2.py" + login_param + reboot_params + login_flag + logout_flag + "\n"
             return result
         device_params = " " + devices.get_device_value(device, "SendCLI")
-        interface_dir = " " + interfaces.get_interface_value(self.interfaceComboBox.currentText())
+        interface_dir = " " + interfaces.get_interface_print_value(self.interfaceComboBox.currentText())
         methodItem = self.methodList.currentItem()
         if ((methodItem == None) or (methodItem.text() == "<none>")):
             command_file='<none>'
@@ -212,7 +212,7 @@ class Ui_sendCLIDialog(object):
         self.argumentsLabel.setBuddy(self.argumentsEdit)
 
         self.retranslateUi(sendCLIDialog)
-        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), lambda : parentUi.acceptSendCLI(self.acceptSendCLI()))
+        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), lambda : parentUi.acceptTeststep(self.acceptSendCLI()))
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), sendCLIDialog.accept)
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("rejected()")), sendCLIDialog.reject)
         QtCore.QObject.connect(self.deviceComboBox, QtCore.SIGNAL(_fromUtf8("currentIndexChanged(QString)")), lambda deviceSelection=self.deviceComboBox.currentText() : self.updateCheckBox(deviceSelection))

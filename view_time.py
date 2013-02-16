@@ -52,7 +52,7 @@ class Ui_timeDialog(object):
         self.verticalLayout.addWidget(self.buttonBox)
 
         self.retranslateUi(timeDialog)
-        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), lambda : parentUi.acceptSendCLI(self.acceptTime()))
+        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), lambda : parentUi.acceptTeststep(self.acceptTime()))
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), timeDialog.accept)
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("rejected()")), timeDialog.reject)
         QtCore.QMetaObject.connectSlotsByName(timeDialog)
