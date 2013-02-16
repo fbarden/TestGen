@@ -20,4 +20,10 @@ def get_interface_value(interface):
 	config_file.optionxform=str
 	config_file.read(interfaces_file)
 	return (paths.get_commands_path() + config_file.get('COMMANDS', interface))
-	
+
+def get_interface_print_value(interface):
+	config_file = ConfigParser.RawConfigParser()
+	config_file.optionxform=str
+	config_file.read(interfaces_file)
+	return (paths.get_commands_print_path() + config_file.get('COMMANDS', interface))
+
