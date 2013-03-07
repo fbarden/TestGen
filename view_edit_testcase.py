@@ -97,9 +97,9 @@ class Ui_editTestcaseForm(object):
         self.testcaseTextEdit.blockSignals(False)
 
     def setupUi(self, editTestcaseForm):
-        self.textChanged = False
         editTestcaseForm.setObjectName(_fromUtf8("editTestcaseForm"))
         editTestcaseForm.resize(579, 511)
+        self.parent = editTestcaseForm
         self.verticalLayout_2 = QtGui.QVBoxLayout(editTestcaseForm)
         self.verticalLayout_2.setObjectName(_fromUtf8("verticalLayout_2"))
         self.horizontalLayout = QtGui.QHBoxLayout()
