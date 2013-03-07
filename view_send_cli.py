@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'view/send_cli.ui'
 #
-# Created: Sat Feb 16 15:39:08 2013
+# Created: Wed Mar  6 19:40:45 2013
 #      by: PyQt4 UI code generator 4.9.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -138,16 +138,22 @@ class Ui_sendCLIDialog(object):
         self.deviceComboBox.setObjectName(_fromUtf8("deviceComboBox"))
         self.createDeviceList(self.deviceComboBox)
         self.formLayout.setWidget(0, QtGui.QFormLayout.FieldRole, self.deviceComboBox)
+        self.deviceIndexLabel = QtGui.QLabel(sendCLIDialog)
+        self.deviceIndexLabel.setObjectName(_fromUtf8("deviceIndexLabel"))
+        self.formLayout.setWidget(1, QtGui.QFormLayout.LabelRole, self.deviceIndexLabel)
+        self.deviceIndexEdit = QtGui.QLineEdit(sendCLIDialog)
+        self.deviceIndexEdit.setObjectName(_fromUtf8("deviceIndexEdit"))
+        self.formLayout.setWidget(1, QtGui.QFormLayout.FieldRole, self.deviceIndexEdit)
         self.interfaceLabel = QtGui.QLabel(sendCLIDialog)
         self.interfaceLabel.setAccessibleName(_fromUtf8(""))
         self.interfaceLabel.setObjectName(_fromUtf8("interfaceLabel"))
-        self.formLayout.setWidget(1, QtGui.QFormLayout.LabelRole, self.interfaceLabel)
+        self.formLayout.setWidget(2, QtGui.QFormLayout.LabelRole, self.interfaceLabel)
         self.interfaceComboBox = QtGui.QComboBox(sendCLIDialog)
         self.interfaceComboBox.setAccessibleName(_fromUtf8(""))
         self.interfaceComboBox.setInsertPolicy(QtGui.QComboBox.InsertAlphabetically)
         self.interfaceComboBox.setObjectName(_fromUtf8("interfaceComboBox"))
         self.createInterfaceList(self.interfaceComboBox)
-        self.formLayout.setWidget(1, QtGui.QFormLayout.FieldRole, self.interfaceComboBox)
+        self.formLayout.setWidget(2, QtGui.QFormLayout.FieldRole, self.interfaceComboBox)
         self.verticalLayout.addLayout(self.formLayout)
         self.horizontalLayout = QtGui.QHBoxLayout()
         self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
@@ -157,9 +163,9 @@ class Ui_sendCLIDialog(object):
         self.horizontalLayout_2.setObjectName(_fromUtf8("horizontalLayout_2"))
         spacerItem = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.horizontalLayout_2.addItem(spacerItem)
-        self.commandLabel = QtGui.QLabel(sendCLIDialog)
-        self.commandLabel.setObjectName(_fromUtf8("commandLabel"))
-        self.horizontalLayout_2.addWidget(self.commandLabel)
+        self.commandsLabel = QtGui.QLabel(sendCLIDialog)
+        self.commandsLabel.setObjectName(_fromUtf8("commandsLabel"))
+        self.horizontalLayout_2.addWidget(self.commandsLabel)
         spacerItem1 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.horizontalLayout_2.addItem(spacerItem1)
         self.verticalLayout_2.addLayout(self.horizontalLayout_2)
@@ -243,9 +249,12 @@ class Ui_sendCLIDialog(object):
 
     def retranslateUi(self, sendCLIDialog):
         sendCLIDialog.setWindowTitle(QtGui.QApplication.translate("sendCLIDialog", "Dialog", None, QtGui.QApplication.UnicodeUTF8))
+        self.sendCLILabel.setText(QtGui.QApplication.translate("sendCLIDialog", "SendCLI_v2", None, QtGui.QApplication.UnicodeUTF8))
         self.deviceLabel.setText(QtGui.QApplication.translate("sendCLIDialog", "Device:", None, QtGui.QApplication.UnicodeUTF8))
+        self.deviceIndexLabel.setText(QtGui.QApplication.translate("sendCLIDialog", "Device Index:", None, QtGui.QApplication.UnicodeUTF8))
+        self.deviceIndexEdit.setText(QtGui.QApplication.translate("sendCLIDialog", "1", None, QtGui.QApplication.UnicodeUTF8))
         self.interfaceLabel.setText(QtGui.QApplication.translate("sendCLIDialog", "Interface:", None, QtGui.QApplication.UnicodeUTF8))
-        self.commandLabel.setText(QtGui.QApplication.translate("sendCLIDialog", "Command", None, QtGui.QApplication.UnicodeUTF8))
+        self.commandsLabel.setText(QtGui.QApplication.translate("sendCLIDialog", "Commands", None, QtGui.QApplication.UnicodeUTF8))
         self.methodList.setSortingEnabled(True)
         __sortingEnabled = self.methodList.isSortingEnabled()
         self.methodList.setSortingEnabled(False)
