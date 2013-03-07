@@ -83,18 +83,19 @@ class Ui_sendCLIDialog(object):
         login_flag = ""
         logout_flag = ""
         device = str(self.deviceComboBox.currentText())
+        index =  str(self.deviceIndexEdit.text())
         if self.loginCheckBox.isChecked() :
-            login_param = " " + devices.get_device_value(device, "Login")
+            login_param = " " + devices.get_device_value(device, "Login", index)
             login_flag = " --login"
             special_case = True
         if self.logoutCheckBox.isChecked() :
             logout_flag = " --logout"
             special_case = True
         if self.rebootCheckBox.isChecked() :
-            reboot_params = " " + devices.get_device_value(device, "Reboot")
+            reboot_params = " " + devices.get_device_value(device, "Reboot", index)
             result = "SendCLI_v2.py" + login_param + reboot_params + login_flag + logout_flag + "\n"
             return result
-        device_params = " " + devices.get_device_value(device, "SendCLI")
+        device_params = " " + devices.get_device_value(device, "SendCLI", index)
         interface_dir = " " + interfaces.get_interface_print_value(self.interfaceComboBox.currentText())
         methodItem = self.methodList.currentItem()
         if ((methodItem == None) or (methodItem.text() == "<none>")):
