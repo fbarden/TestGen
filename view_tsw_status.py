@@ -117,7 +117,7 @@ class Ui_TSWStatusDialog(object):
         self.verticalLayout.addWidget(self.buttonBox)
 
         self.retranslateUi(TSWStatusDialog)
-        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), lambda : parentUi.acceptTSWStatus(self.acceptTSWStatus()))
+        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), lambda : parentUi.acceptTeststep(self.acceptTSWStatus()))
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), TSWStatusDialog.accept)
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("rejected()")), TSWStatusDialog.reject)
         QtCore.QMetaObject.connectSlotsByName(TSWStatusDialog)

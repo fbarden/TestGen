@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'view/send_cli_dialog.ui'
+# Form implementation generated from reading ui file 'view/send_cli.ui'
 #
-# Created: Tue Feb 12 20:35:12 2013
+# Created: Sat Feb 16 15:39:08 2013
 #      by: PyQt4 UI code generator 4.9.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -95,7 +95,7 @@ class Ui_sendCLIDialog(object):
             result = "SendCLI_v2.py" + login_param + reboot_params + login_flag + logout_flag + "\n"
             return result
         device_params = " " + devices.get_device_value(device, "SendCLI")
-        interface_dir = " " + interfaces.get_interface_value(self.interfaceComboBox.currentText())
+        interface_dir = " " + interfaces.get_interface_print_value(self.interfaceComboBox.currentText())
         methodItem = self.methodList.currentItem()
         if ((methodItem == None) or (methodItem.text() == "<none>")):
             command_file='<none>'
@@ -112,9 +112,19 @@ class Ui_sendCLIDialog(object):
     def setupUi(self, sendCLIDialog, parentUi):
         sendCLIDialog.setObjectName(_fromUtf8("sendCLIDialog"))
         sendCLIDialog.setWindowModality(QtCore.Qt.ApplicationModal)
-        sendCLIDialog.resize(602, 451)
+        sendCLIDialog.resize(617, 625)
         self.verticalLayout = QtGui.QVBoxLayout(sendCLIDialog)
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
+        self.horizontalLayout_4 = QtGui.QHBoxLayout()
+        self.horizontalLayout_4.setObjectName(_fromUtf8("horizontalLayout_4"))
+        spacerItem = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
+        self.horizontalLayout_4.addItem(spacerItem)
+        self.sendCLILabel = QtGui.QLabel(sendCLIDialog)
+        self.sendCLILabel.setObjectName(_fromUtf8("sendCLILabel"))
+        self.horizontalLayout_4.addWidget(self.sendCLILabel)
+        spacerItem1 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
+        self.horizontalLayout_4.addItem(spacerItem1)
+        self.verticalLayout.addLayout(self.horizontalLayout_4)
         self.formLayout = QtGui.QFormLayout()
         self.formLayout.setFieldGrowthPolicy(QtGui.QFormLayout.AllNonFixedFieldsGrow)
         self.formLayout.setObjectName(_fromUtf8("formLayout"))
@@ -124,6 +134,7 @@ class Ui_sendCLIDialog(object):
         self.formLayout.setWidget(0, QtGui.QFormLayout.LabelRole, self.deviceLabel)
         self.deviceComboBox = QtGui.QComboBox(sendCLIDialog)
         self.deviceComboBox.setAccessibleName(_fromUtf8(""))
+        self.deviceComboBox.setInsertPolicy(QtGui.QComboBox.InsertAlphabetically)
         self.deviceComboBox.setObjectName(_fromUtf8("deviceComboBox"))
         self.createDeviceList(self.deviceComboBox)
         self.formLayout.setWidget(0, QtGui.QFormLayout.FieldRole, self.deviceComboBox)
@@ -133,6 +144,7 @@ class Ui_sendCLIDialog(object):
         self.formLayout.setWidget(1, QtGui.QFormLayout.LabelRole, self.interfaceLabel)
         self.interfaceComboBox = QtGui.QComboBox(sendCLIDialog)
         self.interfaceComboBox.setAccessibleName(_fromUtf8(""))
+        self.interfaceComboBox.setInsertPolicy(QtGui.QComboBox.InsertAlphabetically)
         self.interfaceComboBox.setObjectName(_fromUtf8("interfaceComboBox"))
         self.createInterfaceList(self.interfaceComboBox)
         self.formLayout.setWidget(1, QtGui.QFormLayout.FieldRole, self.interfaceComboBox)
@@ -212,7 +224,7 @@ class Ui_sendCLIDialog(object):
         self.argumentsLabel.setBuddy(self.argumentsEdit)
 
         self.retranslateUi(sendCLIDialog)
-        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), lambda : parentUi.acceptSendCLI(self.acceptSendCLI()))
+        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), lambda : parentUi.acceptTeststep(self.acceptSendCLI()))
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), sendCLIDialog.accept)
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("rejected()")), sendCLIDialog.reject)
         QtCore.QObject.connect(self.deviceComboBox, QtCore.SIGNAL(_fromUtf8("currentIndexChanged(QString)")), lambda deviceSelection=self.deviceComboBox.currentText() : self.updateCheckBox(deviceSelection))
@@ -250,7 +262,7 @@ if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
     sendCLIDialog = QtGui.QDialog()
     ui = Ui_sendCLIDialog()
-    ui.setupUi(sendCLIDialog)
+    ui.setupUi(sendCLIDialog, None)
     sendCLIDialog.show()
     sys.exit(app.exec_())
 
