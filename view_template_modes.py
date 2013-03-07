@@ -38,7 +38,7 @@ class Ui_templateModesDialog(object):
     def acceptTemplateOption(self, result):
         self.parent.acceptTeststep(result)
         self.widget.accept()
-        
+
 
     def setupUi(self, templateModesDialog, return_address, template):
         templateModesDialog.setObjectName("templateModesDialog")

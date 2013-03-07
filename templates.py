@@ -36,8 +36,20 @@ def get_options_list(template, mode):
     options = config_file.sections()
     return options
 
-def get_option_command(template, mode, option):
+def get_variables_list(template, mode):
     config_file = open_option_config(template, mode)
+    variables_string = config_file.get('DEFAULT', 'variables')
+    variable_list = variables_string.split(',')
+    for var in variable_list :
+        index = variable_list.index(var)
+        variable_list[index] = var.strip()
+    return variable_list
+
+def get_option_command(template, mode, option, variables = {}):
+    config_file = open_option_config(template, mode)
+    if variables != {} :
+        for var in variables :
+            config_file.set('DEFAULT', var, variables[var])
     return config_file.get(option, 'command')
 
 def get_option_name(template, mode, option):
@@ -51,3 +63,7 @@ def get_option_enable(template, mode, option):
 def get_option_index(template, mode, option):
     config_file = open_option_config(template, mode)
     return config_file.getint(option, 'index')
+
+def get_variable_value(template, mode, variable):
+    config_file = open_option_config(template, mode)
+    return config_file.get('DEFAULT', variable)
