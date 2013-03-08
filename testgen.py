@@ -32,7 +32,6 @@ class Ui_MainWindow(object):
     def openTestcase(self, parent) :
         fileNames = QtGui.QFileDialog.getOpenFileNames(parent, ("Open File"),paths.get_testcases_path(),("All Files (pd*.txt)"));
         for fname in fileNames:
-            print fname
             self.openEditTestcase(parent, str(fname))
 
     def saveTestcase(self, parent) :

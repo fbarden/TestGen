@@ -16,7 +16,6 @@ import view_time as time
 
 import view_template_modes as templateModes
 
-#import testCaseParser
 import syntaxHighlight
 import templates
 
@@ -77,35 +76,12 @@ class Ui_editTestcaseForm(object):
         self.testcaseTextEdit.insertPlainText(returnString)
         cursor = self.testcaseTextEdit.textCursor()
         cursor.movePosition(cursor.PreviousBlock)
-        testCaseParser.highlightBlock(cursor)
         self.testcaseTextEdit.blockSignals(False)
-
-    #def updateText(self):
-        #self.testcaseTextEdit.blockSignals(True)
-        #cursor = self.testcaseTextEdit.textCursor()
-        #cursor.joinPreviousEditBlock()
-        #cursor.select(cursor.WordUnderCursor)
-        #testCaseParser.highlightBlock(cursor)
-        #cursor.endEditBlock()
-        #self.testcaseTextEdit.blockSignals(False)
-
-    #def updateAllText(self):
-        #self.testcaseTextEdit.blockSignals(True)
-        #cursor = self.testcaseTextEdit.textCursor()
-        #cursor.joinPreviousEditBlock()
-        #cursor.select(cursor.WordUnderCursor)
-        #cursor.movePosition(cursor.Start)
-        #testCaseParser.highlightBlock(cursor)
-        #while (cursor.movePosition(cursor.NextBlock)) :
-			#testCaseParser.highlightBlock(cursor)
-        #cursor.endEditBlock()
-        #self.testcaseTextEdit.blockSignals(False)
 
     def loadFile(self, filename) :
         with open(filename, 'r') as f :
             self.file_path = filename
             self.testcaseTextEdit.setText(f.read())
-            #self.updateAllText()
 
     def setupUi(self, editTestcaseForm, filename):
         self.file_path = None
@@ -146,8 +122,6 @@ class Ui_editTestcaseForm(object):
         self.verticalLayout.addItem(spacerItem)
         self.horizontalLayout_2.addLayout(self.verticalLayout)
         self.verticalLayout_2.addLayout(self.horizontalLayout_2)
-        self.updateTextShortcut = QtGui.QShortcut(editTestcaseForm)
-        self.updateTextShortcut.setKey('F5')
 
         self.retranslateUi(editTestcaseForm)
         QtCore.QObject.connect(self.sendCLIButton, QtCore.SIGNAL(_fromUtf8("clicked()")), lambda parent=editTestcaseForm, return_address=self: self.openSendCLI(parent, return_address))
@@ -155,11 +129,8 @@ class Ui_editTestcaseForm(object):
         QtCore.QObject.connect(self.TSWConfigButton, QtCore.SIGNAL(_fromUtf8("clicked()")), lambda parent=editTestcaseForm, return_address=self: self.openTSWConfig(parent, return_address))
         QtCore.QObject.connect(self.loopButton, QtCore.SIGNAL(_fromUtf8("clicked()")), lambda parent=editTestcaseForm, return_address=self: self.openLoop(parent, return_address))
         QtCore.QObject.connect(self.timeButton, QtCore.SIGNAL(_fromUtf8("clicked()")), lambda parent=editTestcaseForm, return_address=self: self.openTime(parent, return_address))
-        #QtCore.QObject.connect(self.testcaseTextEdit, QtCore.SIGNAL(_fromUtf8("textChanged()")), lambda : self.updateText())
-        #QtCore.QObject.connect(self.updateTextShortcut, QtCore.SIGNAL(_fromUtf8("activated()")), lambda : self.updateAllText())
         for button in self.templateButtons :
             QtCore.QObject.connect(button, QtCore.SIGNAL(_fromUtf8("clicked()")), lambda parent=editTestcaseForm, return_address=self, template=str(button.text()) : self.openTemplateModes(parent, return_address, template))
-        #QtCore.QObject.connect(self.updateTextShortcut, QtCore.SIGNAL(_fromUtf8("activated()")), lambda : self.updateAllText())
         QtCore.QMetaObject.connectSlotsByName(editTestcaseForm)
         editTestcaseForm.setTabOrder(self.testcaseTextEdit, self.timeButton)
         editTestcaseForm.setTabOrder(self.timeButton, self.loopButton)
