@@ -10,6 +10,7 @@
 from PyQt4 import QtCore, QtGui
 import sys
 import view_edit_testcase as editTestcase
+import paths
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -21,16 +22,41 @@ class Ui_MainWindow(object):
     def openEditTestcase(self, parent, filename=None) :
         editTestcaseForm = QtGui.QWidget(parent)
         ui = editTestcase.Ui_editTestcaseForm()
-        ui.setupUi(editTestcaseForm)
+        ui.setupUi(editTestcaseForm, filename)
         if filename==None :
             self.tabWidget.addTab(editTestcaseForm, "new_testcase")
-        #editTestcaseForm.show()
+        else :
+            self.tabWidget.addTab(editTestcaseForm, filename.rpartition('/')[2])
+            ui.loadFile(filename)
 
     def openTestcase(self, parent) :
-        fileNames = QtGui.QFileDialog.getOpenFileNames(parent, ("Open File"),"../",("All Files (*)"));
+        fileNames = QtGui.QFileDialog.getOpenFileNames(parent, ("Open File"),paths.get_testcases_path(),("All Files (pd*.txt)"));
         for fname in fileNames:
             print fname
-            self.openEditTestcase(parent, fname)
+            self.openEditTestcase(parent, str(fname))
+
+    def saveTestcase(self, parent) :
+        if parent.count() == 0 :
+            return
+        widget = parent.currentWidget()
+        filename = widget.objectName()
+        if filename :
+            with open(filename, 'w') as f :
+                textEdit = widget.findChild(QtGui.QTextEdit, "testcaseTextEdit")
+                f.write(textEdit.toPlainText())
+        else :
+            self.saveAsTestcase(parent)
+
+    def saveAsTestcase(self, parent) :
+        filename = QtGui.QFileDialog.getSaveFileName(parent, ("Save File"),paths.get_testcases_path(),("All Files (*)"));
+        if not filename :
+            return
+        with open(filename, 'w') as f :
+            widget = parent.currentWidget()
+            widget.setObjectName(filename)
+            parent.setTabText(parent.currentIndex(), str(filename).rpartition('/')[2])
+            textEdit = widget.findChild(QtGui.QTextEdit, "testcaseTextEdit")
+            f.write(textEdit.toPlainText())
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
@@ -87,10 +113,12 @@ class Ui_MainWindow(object):
         self.tabWidget.setCurrentIndex(0)
         QtCore.QObject.connect(self.actionNew_Testcase, QtCore.SIGNAL(_fromUtf8("triggered()")), lambda : self.openEditTestcase(self.tabWidget))
         QtCore.QObject.connect(self.actionOpen_Testcase, QtCore.SIGNAL(_fromUtf8("triggered()")), lambda : self.openTestcase(self.tabWidget))
+        QtCore.QObject.connect(self.actionSave_Testcase, QtCore.SIGNAL(_fromUtf8("triggered()")), lambda : self.saveTestcase(self.tabWidget))
+        QtCore.QObject.connect(self.actionSave_as_Testcase, QtCore.SIGNAL(_fromUtf8("triggered()")), lambda : self.saveAsTestcase(self.tabWidget))
         QtCore.QObject.connect(self.tabWidget, QtCore.SIGNAL(_fromUtf8("tabCloseRequested(int)")), self.tabWidget.removeTab)
         QtCore.QObject.connect(self.closeTabShortcut, QtCore.SIGNAL(_fromUtf8("activated()")), lambda : self.tabWidget.removeTab(self.tabWidget.currentIndex()))
-        QtCore.QObject.connect(self.previousTabShortcut, QtCore.SIGNAL(_fromUtf8("activated()")), lambda : self.tabWidget.setCurrentIndex(self.tabWidget.currentIndex()-1))
-        QtCore.QObject.connect(self.nextTabShortcut, QtCore.SIGNAL(_fromUtf8("activated()")), lambda : self.tabWidget.setCurrentIndex(self.tabWidget.currentIndex()+1))
+        QtCore.QObject.connect(self.previousTabShortcut, QtCore.SIGNAL(_fromUtf8("activated()")), lambda : self.tabWidget.setCurrentIndex((self.tabWidget.currentIndex()-1)%self.tabWidget.count()))
+        QtCore.QObject.connect(self.nextTabShortcut, QtCore.SIGNAL(_fromUtf8("activated()")), lambda : self.tabWidget.setCurrentIndex((self.tabWidget.currentIndex()+1)%self.tabWidget.count()))
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
