@@ -199,14 +199,27 @@
       </spacer>
      </item>
      <item>
-      <widget class="QCheckBox" name="checkBox">
+      <widget class="QCheckBox" name="enableCheckBox">
+       <property name="text">
+        <string>enable (-n and -c)</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="negotiateCheckBox">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>negotiate (-n)</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QCheckBox" name="checkBox_2">
+      <widget class="QCheckBox" name="flowControlCheckBox">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>flow control (-c)</string>
        </property>
@@ -235,8 +248,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>257</x>
+     <y>237</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -251,12 +264,44 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>325</x>
+     <y>237</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
      <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>enableCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>negotiateCheckBox</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>201</x>
+     <y>190</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>372</x>
+     <y>193</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>enableCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>flowControlCheckBox</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>277</x>
+     <y>191</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>487</x>
+     <y>193</y>
     </hint>
    </hints>
   </connection>

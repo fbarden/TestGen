@@ -34,25 +34,24 @@ class Ui_TSWConfigDialog(object):
         negotiate_flag = ""
         flow_controle_flag = ""
         device = str(self.deviceComboBox.currentText())
-        device_params = " " + devices.get_device_value(device, "TSWConfig")
+        device_params = " " + devices.get_device_value(device, "TSWConfig", "1")
         if (self.streamLineEdit.text() != "") :
             stream_param = " -s " + str(self.streamLineEdit.text())
         if (self.rateLineEdit.text() != "") :
             rate_param = " -r " + str(self.rateLineEdit.text())
         if (self.frameSizeLineEdit.text() != "") :
             frame_size_param = " -f " + str(self.frameSizeLineEdit.text())
-        if (self.linkComboBox.currentText() != "") :
+        if (self.linkComboBox.currentText() != "<none>") :
             link_param = " -l " + str(self.linkComboBox.currentText())
-        if (self.typeComboBox.currentText() != "") :
+        if (self.typeComboBox.currentText() != "<none>") :
             type_param = " -t " + str(self.typeComboBox.currentText())
-        if (self.negotiateCheckBox.isChecked()) :
-            negotiate_flag = " -n yes"
-        else :
+        if self.enableCheckBox.isChecked():
             negotiate_flag = " -n no"
-        if (self.flowControlCheckBox.isChecked()) :
-            flow_controle_flag = " -c yes"
-        else :
             flow_controle_flag = " -c no"
+            if (self.negotiateCheckBox.isChecked()) :
+                negotiate_flag = " -n yes"
+            if (self.flowControlCheckBox.isChecked()) :
+                flow_controle_flag = " -c yes"
         result = "TSWConfig.py" + device_params + stream_param + rate_param + frame_size_param + link_param + type_param + negotiate_flag + flow_controle_flag + "\n"
         return result
 
@@ -129,9 +128,11 @@ class Ui_TSWConfigDialog(object):
         self.linkComboBox.addItem("")
         self.linkComboBox.addItem("")
         self.linkComboBox.addItem("")
+        self.linkComboBox.addItem("")
         self.verticalLayout_3.addWidget(self.linkComboBox)
         self.typeComboBox = QtGui.QComboBox(TSWConfigDialog)
         self.typeComboBox.setObjectName("typeComboBox")
+        self.typeComboBox.addItem("")
         self.typeComboBox.addItem("")
         self.typeComboBox.addItem("")
         self.typeComboBox.addItem("")
@@ -144,10 +145,15 @@ class Ui_TSWConfigDialog(object):
         self.horizontalLayout.setObjectName("horizontalLayout")
         spacerItem2 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem2)
+        self.enableCheckBox = QtGui.QCheckBox(TSWConfigDialog)
+        self.enableCheckBox.setObjectName("enableCheckBox")
+        self.horizontalLayout.addWidget(self.enableCheckBox)
         self.negotiateCheckBox = QtGui.QCheckBox(TSWConfigDialog)
+        self.negotiateCheckBox.setEnabled(False)
         self.negotiateCheckBox.setObjectName("negotiateCheckBox")
         self.horizontalLayout.addWidget(self.negotiateCheckBox)
         self.flowControlCheckBox = QtGui.QCheckBox(TSWConfigDialog)
+        self.flowControlCheckBox.setEnabled(False)
         self.flowControlCheckBox.setObjectName("flowControlCheckBox")
         self.horizontalLayout.addWidget(self.flowControlCheckBox)
         self.verticalLayout_5.addLayout(self.horizontalLayout)
@@ -161,6 +167,8 @@ class Ui_TSWConfigDialog(object):
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL("accepted()"), lambda : parentUi.acceptTeststep(self.acceptTSWConfig()))
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL("accepted()"), TSWConfigDialog.accept)
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL("rejected()"), TSWConfigDialog.reject)
+        QtCore.QObject.connect(self.enableCheckBox, QtCore.SIGNAL("toggled(bool)"), self.negotiateCheckBox.setEnabled)
+        QtCore.QObject.connect(self.enableCheckBox, QtCore.SIGNAL("toggled(bool)"), self.flowControlCheckBox.setEnabled)
         QtCore.QMetaObject.connectSlotsByName(TSWConfigDialog)
 
     def retranslateUi(self, TSWConfigDialog):
@@ -172,13 +180,16 @@ class Ui_TSWConfigDialog(object):
         self.frameSizeLabel.setText(QtGui.QApplication.translate("TSWConfigDialog", "frame size: -f", None, QtGui.QApplication.UnicodeUTF8))
         self.linkLabel.setText(QtGui.QApplication.translate("TSWConfigDialog", "link: -l", None, QtGui.QApplication.UnicodeUTF8))
         self.typeLabel.setText(QtGui.QApplication.translate("TSWConfigDialog", "type: -t", None, QtGui.QApplication.UnicodeUTF8))
-        self.linkComboBox.setItemText(0, QtGui.QApplication.translate("TSWConfigDialog", "10000", None, QtGui.QApplication.UnicodeUTF8))
-        self.linkComboBox.setItemText(1, QtGui.QApplication.translate("TSWConfigDialog", "1000", None, QtGui.QApplication.UnicodeUTF8))
-        self.linkComboBox.setItemText(2, QtGui.QApplication.translate("TSWConfigDialog", "100", None, QtGui.QApplication.UnicodeUTF8))
-        self.typeComboBox.setItemText(0, QtGui.QApplication.translate("TSWConfigDialog", "factory", None, QtGui.QApplication.UnicodeUTF8))
-        self.typeComboBox.setItemText(1, QtGui.QApplication.translate("TSWConfigDialog", "storm_broad", None, QtGui.QApplication.UnicodeUTF8))
-        self.typeComboBox.setItemText(2, QtGui.QApplication.translate("TSWConfigDialog", "default", None, QtGui.QApplication.UnicodeUTF8))
-        self.typeComboBox.setItemText(3, QtGui.QApplication.translate("TSWConfigDialog", "ipv4", None, QtGui.QApplication.UnicodeUTF8))
+        self.linkComboBox.setItemText(0, QtGui.QApplication.translate("TSWConfigDialog", "<none>", None, QtGui.QApplication.UnicodeUTF8))
+        self.linkComboBox.setItemText(1, QtGui.QApplication.translate("TSWConfigDialog", "10000", None, QtGui.QApplication.UnicodeUTF8))
+        self.linkComboBox.setItemText(2, QtGui.QApplication.translate("TSWConfigDialog", "1000", None, QtGui.QApplication.UnicodeUTF8))
+        self.linkComboBox.setItemText(3, QtGui.QApplication.translate("TSWConfigDialog", "100", None, QtGui.QApplication.UnicodeUTF8))
+        self.typeComboBox.setItemText(0, QtGui.QApplication.translate("TSWConfigDialog", "<none>", None, QtGui.QApplication.UnicodeUTF8))
+        self.typeComboBox.setItemText(1, QtGui.QApplication.translate("TSWConfigDialog", "factory", None, QtGui.QApplication.UnicodeUTF8))
+        self.typeComboBox.setItemText(2, QtGui.QApplication.translate("TSWConfigDialog", "storm_broad", None, QtGui.QApplication.UnicodeUTF8))
+        self.typeComboBox.setItemText(3, QtGui.QApplication.translate("TSWConfigDialog", "default", None, QtGui.QApplication.UnicodeUTF8))
+        self.typeComboBox.setItemText(4, QtGui.QApplication.translate("TSWConfigDialog", "ipv4", None, QtGui.QApplication.UnicodeUTF8))
+        self.enableCheckBox.setText(QtGui.QApplication.translate("TSWConfigDialog", "enable (-n and -c)", None, QtGui.QApplication.UnicodeUTF8))
         self.negotiateCheckBox.setText(QtGui.QApplication.translate("TSWConfigDialog", "negotiate (-n)", None, QtGui.QApplication.UnicodeUTF8))
         self.flowControlCheckBox.setText(QtGui.QApplication.translate("TSWConfigDialog", "flow control (-c)", None, QtGui.QApplication.UnicodeUTF8))
 

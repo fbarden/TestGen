@@ -32,7 +32,7 @@ class Ui_TSWStatusDialog(object):
         end_param = ""
         reverse_flag = ""
         device = str(self.deviceComboBox.currentText())
-        device_params = " " + devices.get_device_value(device, "TSWStatus")
+        device_params = " " + devices.get_device_value(device, "TSWStatus", "1")
         if (self.streamLineEdit.text() != "") :
             stream_param = " -s " + str(self.streamLineEdit.text())
         direction_param = " -d " + str(self.directionComboBox.currentIndex() + 1)
@@ -41,7 +41,7 @@ class Ui_TSWStatusDialog(object):
         if (self.endLineEdit.text() != "") :
             end_param = " -e " + str(self.endLineEdit.text())
         if (self.reverseCheckBox.isChecked()) :
-            reverse_flag = " -r"
+            reverse_flag = " -r 1"
 
         result = "TSWStatus.py" + device_params + stream_param + direction_param + wait_param + end_param + reverse_flag + "\n"
         return result

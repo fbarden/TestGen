@@ -16,7 +16,7 @@ def get_commands_list(device):
     config_file = open_devices_config()
     return config_file.options(device)
 
-def get_device_value(device, command, index):
+def get_device_value(device, command, index=1):
     config_file = open_devices_config()
     config_file.set('DEFAULT', 'index', index)
     return config_file.get(device, command)

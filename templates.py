@@ -38,6 +38,8 @@ def get_options_list(template, mode):
 
 def get_variables_list(template, mode):
     config_file = open_option_config(template, mode)
+    if not(config_file.has_option('DEFAULT', 'variables')) :
+		return None
     variables_string = config_file.get('DEFAULT', 'variables')
     variable_list = variables_string.split(',')
     for var in variable_list :

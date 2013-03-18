@@ -30,10 +30,12 @@ class Ui_templateOptionsDialog(object):
 
     def createVariablesEdit(self, parent, template, mode) :
         variablesList = templates.get_variables_list(template, mode)
+        if variablesList==None :
+			return
         gridPosition = 0
         gridColumns = 1 #int(math.sqrt(len(variablesList)))
         self.variablesLabel = [0]*len(variablesList)
-        self.variablesLineEdit = [0]*len(variablesList)
+        self.variablesLineEdit = [0]*len(variablesList)      
         for variable in variablesList :
             variableIndex = variablesList.index(variable)
             self.variablesLabel[variableIndex] = QtGui.QLabel(parent)
@@ -50,9 +52,11 @@ class Ui_templateOptionsDialog(object):
         result = ""
         optionList = templates.get_options_list(template, mode)
         orderedOptionList= [0]*len(optionList)
+        variablesList = templates.get_variables_list(template, mode)
         variables = {}
-        for variableEdit in self.variablesLineEdit :
-            variables[variableEdit.objectName()] = str(variableEdit.text())
+        if variablesList != None :
+            for variableEdit in self.variablesLineEdit :
+                variables[variableEdit.objectName()] = str(variableEdit.text())
         for option in optionList :
             optionIndex = templates.get_option_index(template, mode, option) - 1
             orderedOptionList[optionIndex] = option

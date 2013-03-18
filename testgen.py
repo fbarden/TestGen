@@ -10,6 +10,7 @@
 from PyQt4 import QtCore, QtGui
 import sys
 import view_edit_testcase as editTestcase
+import view_run_testcase as runTestcase
 import paths
 
 try:
@@ -24,10 +25,11 @@ class Ui_MainWindow(object):
         ui = editTestcase.Ui_editTestcaseForm()
         ui.setupUi(editTestcaseForm, filename)
         if filename==None :
-            self.tabWidget.addTab(editTestcaseForm, "new_testcase")
+            self.tabWidget.addTab(editTestcaseForm, " Edit new_testcase")
         else :
-            self.tabWidget.addTab(editTestcaseForm, filename.rpartition('/')[2])
+            self.tabWidget.addTab(editTestcaseForm, "Edit " + filename.rpartition('/')[2])
             ui.loadFile(filename)
+        self.tabWidget.setCurrentWidget(editTestcaseForm)
 
     def openTestcase(self, parent) :
         fileNames = QtGui.QFileDialog.getOpenFileNames(parent, ("Open File"),paths.get_testcases_path(),("All Files (pd*.txt)"));
@@ -57,6 +59,14 @@ class Ui_MainWindow(object):
             textEdit = widget.findChild(QtGui.QTextEdit, "testcaseTextEdit")
             f.write(textEdit.toPlainText())
 
+    def openRunTestcase(self, parent) :
+        testcase = "197"
+        runTestcaseForm = QtGui.QWidget(parent)
+        ui = runTestcase.Ui_runTestcaseForm()
+        ui.setupUi(runTestcaseForm)
+        self.tabWidget.addTab(runTestcaseForm, 'Run TC_' + testcase)
+        self.tabWidget.setCurrentWidget(runTestcaseForm)
+            
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
         MainWindow.resize(800, 600)
@@ -77,7 +87,9 @@ class Ui_MainWindow(object):
         self.menuTestcases = QtGui.QMenu(self.menubar)
         self.menuTestcases.setObjectName(_fromUtf8("menuTestcases"))
         self.menuAbout = QtGui.QMenu(self.menubar)
-        self.menuAbout.setObjectName(_fromUtf8("menuAbout"))
+        self.menuAbout.setObjectName("menuAbout")
+        self.menuRun = QtGui.QMenu(self.menubar)
+        self.menuRun.setObjectName("menuRun")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtGui.QStatusBar(MainWindow)
         self.statusbar.setObjectName(_fromUtf8("statusbar"))
@@ -93,13 +105,20 @@ class Ui_MainWindow(object):
         self.actionAbout_TestGen = QtGui.QAction(MainWindow)
         self.actionAbout_TestGen.setObjectName(_fromUtf8("actionAbout_TestGen"))
         self.actionTestcases = QtGui.QAction(MainWindow)
-        self.actionTestcases.setObjectName(_fromUtf8("actionTestcases"))
+        self.actionTestcases.setObjectName("actionTestcases")
+        self.actionRun_Testcase = QtGui.QAction(MainWindow)
+        self.actionRun_Testcase.setObjectName("actionRun_Testcase")
+        self.actionRun_Testplan = QtGui.QAction(MainWindow)
+        self.actionRun_Testplan.setObjectName("actionRun_Testplan")
         self.menuTestcases.addAction(self.actionNew_Testcase)
         self.menuTestcases.addAction(self.actionOpen_Testcase)
         self.menuTestcases.addAction(self.actionSave_Testcase)
         self.menuTestcases.addAction(self.actionSave_as_Testcase)
         self.menuAbout.addAction(self.actionAbout_TestGen)
+        self.menuRun.addAction(self.actionRun_Testcase)
+        self.menuRun.addAction(self.actionRun_Testplan)
         self.menubar.addAction(self.menuTestcases.menuAction())
+        self.menubar.addAction(self.menuRun.menuAction())
         self.menubar.addAction(self.menuAbout.menuAction())
         self.closeTabShortcut = QtGui.QShortcut(MainWindow)
         self.closeTabShortcut.setKey('CTRL+W')
@@ -113,6 +132,7 @@ class Ui_MainWindow(object):
         QtCore.QObject.connect(self.actionNew_Testcase, QtCore.SIGNAL(_fromUtf8("triggered()")), lambda : self.openEditTestcase(self.tabWidget))
         QtCore.QObject.connect(self.actionOpen_Testcase, QtCore.SIGNAL(_fromUtf8("triggered()")), lambda : self.openTestcase(self.tabWidget))
         QtCore.QObject.connect(self.actionSave_Testcase, QtCore.SIGNAL(_fromUtf8("triggered()")), lambda : self.saveTestcase(self.tabWidget))
+        QtCore.QObject.connect(self.actionRun_Testcase, QtCore.SIGNAL(_fromUtf8("triggered()")), lambda : self.openRunTestcase(self.tabWidget))
         QtCore.QObject.connect(self.actionSave_as_Testcase, QtCore.SIGNAL(_fromUtf8("triggered()")), lambda : self.saveAsTestcase(self.tabWidget))
         QtCore.QObject.connect(self.tabWidget, QtCore.SIGNAL(_fromUtf8("tabCloseRequested(int)")), self.tabWidget.removeTab)
         QtCore.QObject.connect(self.closeTabShortcut, QtCore.SIGNAL(_fromUtf8("activated()")), lambda : self.tabWidget.removeTab(self.tabWidget.currentIndex()))
@@ -124,6 +144,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(QtGui.QApplication.translate("MainWindow", "MainWindow", None, QtGui.QApplication.UnicodeUTF8))
         self.menuTestcases.setTitle(QtGui.QApplication.translate("MainWindow", "Testcases", None, QtGui.QApplication.UnicodeUTF8))
         self.menuAbout.setTitle(QtGui.QApplication.translate("MainWindow", "Help", None, QtGui.QApplication.UnicodeUTF8))
+        self.menuRun.setTitle(QtGui.QApplication.translate("MainWindow", "Execute", None, QtGui.QApplication.UnicodeUTF8))
         self.actionNew_Testcase.setText(QtGui.QApplication.translate("MainWindow", "New...", None, QtGui.QApplication.UnicodeUTF8))
         self.actionNew_Testcase.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+N", None, QtGui.QApplication.UnicodeUTF8))
         self.actionOpen_Testcase.setText(QtGui.QApplication.translate("MainWindow", "Open...", None, QtGui.QApplication.UnicodeUTF8))
@@ -133,6 +154,8 @@ class Ui_MainWindow(object):
         self.actionSave_as_Testcase.setText(QtGui.QApplication.translate("MainWindow", "Save as...", None, QtGui.QApplication.UnicodeUTF8))
         self.actionAbout_TestGen.setText(QtGui.QApplication.translate("MainWindow", "About TestGen", None, QtGui.QApplication.UnicodeUTF8))
         self.actionTestcases.setText(QtGui.QApplication.translate("MainWindow", "Testcases", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionRun_Testcase.setText(QtGui.QApplication.translate("MainWindow", "Run Testcase", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionRun_Testplan.setText(QtGui.QApplication.translate("MainWindow", "Run Testplan", None, QtGui.QApplication.UnicodeUTF8))
 
 if __name__ == "__main__":
     import sys
